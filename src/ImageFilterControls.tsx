@@ -5,13 +5,16 @@ interface ImageFilterControlsState {
   brightness: number;
   contrast: number;
   hueRotate: number;
+  invert: number;
 }
 
 type ImageFilterControlsActionTypes =
   | 'blur'
   | 'brightness'
   | 'contrast'
-  | 'hueRotate';
+  | 'hueRotate'
+  | 'invert'
+;
 
 interface ImageFilterControlsAction {
   type: ImageFilterControlsActionTypes;
@@ -23,6 +26,7 @@ const getInitialState = (): ImageFilterControlsState => ({
   brightness: 100,
   contrast: 100,
   hueRotate: 0,
+  invert: 0,
 });
 
 const reducer: Reducer<ImageFilterControlsState, ImageFilterControlsAction> = (
@@ -32,6 +36,7 @@ const reducer: Reducer<ImageFilterControlsState, ImageFilterControlsAction> = (
   switch (action.type) {
     case 'blur': return { ...state, blur: action.value };
     case 'hueRotate': return { ...state, hueRotate: action.value };
+    case 'invert': return { ...state, invert: action.value };
     default: return state;
   }
 };
@@ -46,9 +51,14 @@ const hueRotate = (value: number) => ({
   value,
 });
 
+const invert = (value: number) => ({
+  type: 'invert' as 'invert',
+  value,
+});
+
 const stateToFilter = (state: ImageFilterControlsState): string => {
-  const { blur, hueRotate } = state;
-  return `blur(${blur}px) hue-rotate(${hueRotate}deg)`;
+  const { blur, hueRotate, invert } = state;
+  return `blur(${blur}px) hue-rotate(${hueRotate}deg) invert(${invert}%)`;
 };
 
 interface ImageFilterControlsProps {
@@ -90,6 +100,21 @@ export const ImageFilterControls: SFC<ImageFilterControlsProps> = (props) => {
           onChange={(e) => dispatch(hueRotate(parseInt(e.target.value, 10)))}
         />
       </div>
+
+      <div>
+        <label htmlFor="invert-input">Invert</label>
+        <input
+          type="range"
+          id="invert-input"
+          name="invert-input"
+          min={0}
+          max={100}
+          value={state.invert}
+          step={1}
+          onChange={(e) => dispatch(invert(parseInt(e.target.value, 10)))}
+        />
+      </div>
+
     </div>
   );
 };
