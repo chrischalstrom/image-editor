@@ -2,6 +2,7 @@ import React, { SFC, useState } from 'react';
 
 import Canvas from './Canvas';
 import ImagePicker from './ImagePicker';
+import { invert, grayscale } from './imageFilters';
 
 export const ImageEditor: SFC = () => {
   const [inputImage, setInputImage] = useState(null as File | null);
@@ -14,6 +15,7 @@ export const ImageEditor: SFC = () => {
 
       <Canvas
         initialImage={inputImage}
+        filters={[grayscale]}
       />
     </>
   );
