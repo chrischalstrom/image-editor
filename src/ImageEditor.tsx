@@ -2,10 +2,11 @@ import React, { SFC, useState } from 'react';
 
 import Canvas from './Canvas';
 import ImagePicker from './ImagePicker';
-import { invert, grayscale, createLuminosity, createHueRotate } from './imageFilters';
+import ImageFilterControls from './ImageFilterControls';
 
 export const ImageEditor: SFC = () => {
   const [inputImage, setInputImage] = useState(null as File | null);
+  const [filter, setFilter] = useState('');
 
   return (
     <>
@@ -13,9 +14,13 @@ export const ImageEditor: SFC = () => {
         onChange={setInputImage}
       />
 
+      <ImageFilterControls
+        onChange={setFilter}
+      />
+
       <Canvas
         initialImage={inputImage}
-        filters={[createHueRotate(90)]}
+        filter={filter}
       />
     </>
   );
