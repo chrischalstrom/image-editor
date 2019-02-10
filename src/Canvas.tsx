@@ -34,6 +34,7 @@ export const Canvas: SFC<CanvasProps> = ({ filter = '', ...props }) => {
     }
 
     ctx.current.filter = filter;
+    ctx.current.clearRect(0, 0, imageElement.current.width, imageElement.current.height);
     ctx.current.drawImage(imageElement.current, 0, 0);
   }, [filter]);
 

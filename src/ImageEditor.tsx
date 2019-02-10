@@ -10,6 +10,8 @@ export const ImageEditor: SFC = () => {
 
   return (
     <>
+      <h1>Image editing tool</h1>
+
       <ImagePicker
         onChange={setInputImage}
       />
